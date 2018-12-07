@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load staticfiles %}
+<html>
+	<head>
+		<title>주옥 같은 댓글</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+		<style>
+			.youtubeWrap {
+				position: relative;
+				width: 100%;
+				padding-bottom: 56.25%;
+			}
+			.youtubeWrap iframe {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<script>
+		function page_move(){
+			var f = document.CommentForm;
+			f.submit();
+		}
+
+		function report(idx){
+			document.getElementById("reportid").value = idx
+			var f = document.reportForm;
+			f.submit();
+		}
+		</script>
+
+
+
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="{% static 'images/logo.svg' %}" alt="" /></span>
+						<h1>주옥 같은 댓글</h1>
+						<p>
+							<a href="">AI기반의 악성 댓글 차단 SW</a><br />
+						</p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#intro" class="active">Video</a></li>
+							<li><a href="#first">Comment</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+							<section id="intro" class="main">
+								<div class="spotlight">
+									<div class="content">
+										<header class="major">
+											<h2>[캡틴 아메리카: 윈터 솔져] 메인 예고편</h2>
+										</header>
+										<p>
+											<div class="youtubeWrap">
+									      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/D4Z2nEdzkdc" frameborder="0" allowfullscreen></iframe>
+									    </div>
+										</p>
+
+								</div>
+
+
+							</section>
+
+						<!-- First Section -->
+							<section id="first" class="main">
+								<header class="major">
+									<h2>댓글</h2>
+								</header>
+
+								<table>
+									<form name = "CommentForm" action = "{% url 'Write' %}" method="post">
+									{% csrf_token %}
+									{{ form|linebreaks }}
+										<tr>
+									<td><input type="text" name="id" id="id" value="" placeholder="ID" /></td>
+									<td><input type="text" name="comment" id="comment" value="" placeholder="Comment" style="width:600px;"/></td>
+									<td><ul class="actions special"><a class="button fit" onclick='page_move()'>댓글</a></ul></td>
+									</form>
+									</tr>
+								</table>
+
+									<div class="table-wrapper">
+										<form name = "reportForm" action = "{% url 'report' %}" method="post">
+										<table>
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th colspan="5">Coment</th>
+													<th>report</th>
+												</tr>
+											</thead>
+											<tbody>
+
+											 {% for context in contexts %}
+												<tr>
+													<td>{{context.ID}}</td>
+													<td colspan="5">{{context.COMENTS}}</td>
+
+														{% csrf_token %}
+														{{ form|linebreaks }}
+													<td>
+
+														<input type="text" name="tempid" id="tempid" value="{{context.Index}}" readonly="readonly" style="display:none;"/>
+														<a class="button primary fit small" onclick='report({{context.Index}})'>신고</a>
+													</td>
+
+												</tr>
+											 {% endfor %}
+
+											</tbody>
+											<tfoot>
+
+												<tr>
+													<th colspan="6">
+														<input type="text" name="reportid" id="reportid" value="" readonly="readonly" style="display:none;"/>
+													</th>
+												</tr>
+
+											</tfoot>
+										</table>
+										</form>
+									</div>
+
+							</section>
+
+
+
+						<!-- Get Started
+							<section id="cta" class="main special">
+								<header class="major">
+									<h2>Congue imperdiet</h2>
+									<p>Donec imperdiet consequat consequat. Suspendisse feugiat congue<br />
+									posuere. Nulla massa urna, fermentum eget quam aliquet.</p>
+								</header>
+								<footer class="major">
+									<ul class="actions special">
+										<li><a href="generic.html" class="button primary">Get Started</a></li>
+										<li><a href="generic.html" class="button">Learn More</a></li>
+									</ul>
+								</footer>
+							</section>
+						-->
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>주옥 같은 댓글</h2>
+							<p>인터넷의 등장으로 많은 사람들의 삶은 편해졌지만 , 익명성 뒤에 숨어 명예훼손 , 인신공격 , 사생활 침해와 같이 개인에게 심리적으로 타격을 줄 수 있는 일이 발생한다 . 악성 댓글로 인한 피해가 증가하면서 정부에서는 ‘인터넷 제한적 본인 확인제 ’ 도입 , ‘ , ‘ 원스톱 인터넷 피해 구제 센터 ’와 같은 정책을 내놓았지만 효과를 보지 못했다 .
+악성 댓글에서는 단어의 변형이 많이 일어나기 때문에 악성 댓글을 탐지하는 정확도를 높여야 하며 , [AI 기반의 악성 댓글 차단 SW] 는 텍스트마이닝기법과 텍스트마이닝기법과 텍스트마이닝기법과 텍스트마이닝기법과 학습을 통해 이러한 점을 이용하여 해당하는 점을 보완할 것이다 . . 단점을 보완한 악성 댓글 차단 SW 는 자가학습을 통해 악성 댓글을 필터링하여 피해자가 근거 없는 비난으로 받는 심리적인 고통을 줄여줄 것이다 . 또한 악성 댓글을 많이 작성하는 사람들은 자아존중감이 낮고 , 불안 및 우울과 상관이 있는 것으로 나타났다 . 때문에 해당 SW 를 이용하여 악성 댓글작성자의 상태를 측정 할 수 있는 간단한 설문을 만들어 작성자의 치료를 유도하여 근본적인 원인을 해결 할 수 있을 것이다 .</p>
+							<ul class="actions">
+								<li><a href="https://github.com/define16" class="button">See More</a></li>
+							</ul>
+						</section>
+						<section>
+							<h2>Etiam feugiat</h2>
+							<dl class="alt">
+								<dt>Author</dt>
+								<dd>조준형</dd>
+								<dt>University</dt>
+								<dd>Hallym University</dd>
+								<dt>Email</dt>
+								<dd><a href="#">radix7318@gmail.com</a></dd>
+							</dl>
+							<ul class="icons">
+								<li><a href="#" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon fa-facebook alt"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon fa-instagram alt"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon fa-dribbble alt"><span class="label">Dribbble</span></a></li>
+							</ul>
+
+						</section>
+						<p class="copyright">&copy; 주옥 같은 댓글. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	<script>
+		var foods = document.getElementsByName('food');
+		var food_value; // 여기에 선택된 radio 버튼의 값이 담기게 된다.
+		for(var i=0; i<foods.length; i++) {
+			if(foods[i].checked) {
+				food_value = foods[i].value;
+			}
+		}
+	</script>
+
+
+
+
+	</body>
+</html>
